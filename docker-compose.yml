@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  calendar-sync:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: calendar-sync-mcp-server
+    restart: unless-stopped
+    
+    # Mount volumes for credentials and configuration
+    volumes:
+      # OAuth credentials (from Google Cloud Console)
+      - ./oauth-credentials.json:/app/oauth-credentials.json:ro
+      
+      # OAuth tokens (auto-generated, needs write access)
+      - ./oauth-token.json:/app/oauth-token.json:rw
+      
+      # Configuration file
+      - ./config.json:/app/config.json:ro
+      
+      # Optional: Service account credentials (if using service accounts)
+      # - ./service-account-key.json:/app/credentials/service-account-key.json:ro
+    
+    # Environment variables
+    environment:
+      - NODE_ENV=production
+      - TZ=Europe/Berlin
+      
+      # Optional: Logging level
+      - LOG_LEVEL=info
+    
+    # Resource limits (adjust as needed)
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
+    # Network (optional - for future HTTP transport)
+    # ports:
+    #   - "3000:3000"
+    
+    # Health check
+    healthcheck:
+      test: ["CMD", "node", "-e", "console.log('healthy')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+# Optional: Create a network for multiple services
+# networks:
+#   calendar-sync-network:
+#     driver: bridge
+
+# Optional: Named volumes for data persistence
+volumes:
+  oauth-tokens:
+    driver: local

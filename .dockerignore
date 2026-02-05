@@ -1,0 +1,65 @@
+# Dependencies
+node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# Build output
+dist
+build
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment and credentials
+.env
+.env.*
+config.json
+credentials.json
+oauth-credentials.json
+oauth-token.json
+service-account-key.json
+*.pem
+*.key
+
+# Documentation (already copied explicitly)
+# *.md
+
+# Testing
+test
+tests
+*.test.ts
+*.spec.ts
+coverage
+.nyc_output
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.travis.yml
+
+# Logs
+logs
+*.log
+
+# Temporary files
+tmp
+temp
+*.tmp
+*.bak
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
